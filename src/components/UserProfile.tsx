@@ -254,8 +254,8 @@ export function UserProfile({ profile, onProfileUpdate, onLogout }: UserProfileP
                                             setEditPhoto(null);
                                         }}
                                         className={`w-10 h-10 rounded-lg border-2 transition-all duration-200 flex items-center justify-center text-xl ${editAvatar === avatar && !editPhoto
-                                                ? 'border-orange-500 bg-orange-50 scale-110'
-                                                : 'border-orange-200 hover:border-orange-300 hover:scale-105'
+                                            ? 'border-orange-500 bg-orange-50 scale-110'
+                                            : 'border-orange-200 hover:border-orange-300 hover:scale-105'
                                             }`}
                                     >
                                         {avatar}
