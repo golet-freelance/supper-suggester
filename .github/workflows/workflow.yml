@@ -1,0 +1,53 @@
+name: Menu Suggester CI/CD
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/menu-suggester:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy on Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/menu-suggester
+            # Pull the new image
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/menu-suggester:latest
+            # Stop and remove the old container if it exists
+            docker stop menu-suggester-fe || true
+            docker rm menu-suggester-fe || true
+            # Run the new container
+            # Note: Ensure the port mapping matches the internal port (3001) and the external port (5174)
+            docker run -d --name menu-suggester-fe -p 5174:3001 \
+              -e NODE_ENV=production \
+              ${{ secrets.DOCKERHUB_USERNAME }}/menu-suggester:latest
