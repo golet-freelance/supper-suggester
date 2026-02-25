@@ -97,17 +97,21 @@ function App() {
 
       <div className="w-full max-w-4xl mx-auto relative z-10">
         {/* Profile Button - Top Right */}
-        <div className="absolute top-4 right-4 z-20">
+        <div className="absolute top-4 right-6 z-20">
           <Button
             onClick={() => setActiveTab('profile')}
             variant="outline"
             size="sm"
-            className="bg-white/90 backdrop-blur-sm border-blue-200 hover:bg-blue-50 hover:border-blue-300 shadow-lg flex items-center gap-2 px-3 py-2"
+            className="bg-white/90 backdrop-blur-sm border-orange-200 hover:bg-orange-50 hover:border-orange-300 shadow-lg flex items-center gap-2 px-3 py-2"
           >
-            <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
-              <span className="text-xs text-white">{userProfile.avatar}</span>
+            <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center overflow-hidden">
+              {userProfile.photo ? (
+                <img src={userProfile.photo} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-xs text-white">{userProfile.avatar}</span>
+              )}
             </div>
-            <span className="hidden sm:inline text-blue-700 font-medium">{userProfile.name}</span>
+            <span className="hidden sm:inline text-orange-700 font-medium">{userProfile.name}</span>
           </Button>
         </div>
 
