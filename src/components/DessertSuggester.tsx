@@ -69,7 +69,7 @@ export function DessertSuggester({ onDessertSelected }: DessertSuggesterProps) {
     }, [dessertLastSuggested, saveDessertHistory, onDessertSelected]);
 
     return (
-        <div className="w-full max-w-lg">
+        <div className="w-full max-w-lg mx-auto">
             {/* Header */}
             <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full shadow-lg mb-4">

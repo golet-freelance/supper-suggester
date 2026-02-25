@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full shadow-lg mb-6">
@@ -25,28 +25,28 @@ function App() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 bg-white/80 backdrop-blur-sm border border-orange-100 rounded-2xl p-1 shadow-lg">
+          <TabsList className="grid w-full grid-cols-2 mb-8 bg-white/80 backdrop-blur-sm border border-orange-100 rounded-2xl p-1 shadow-lg h-auto">
             <TabsTrigger
               value="dinner"
-              className="flex items-center gap-2 py-3 px-6 rounded-xl font-semibold text-gray-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
+              className="flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-semibold text-gray-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300 text-sm sm:text-base data-[state=inactive]:hover:bg-orange-50"
             >
-              <ChefHat size={18} />
+              <ChefHat size={20} />
               Akşam Yemeği
             </TabsTrigger>
             <TabsTrigger
               value="dessert"
-              className="flex items-center gap-2 py-3 px-6 rounded-xl font-semibold text-gray-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-400 data-[state=active]:to-rose-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
+              className="flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-semibold text-gray-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-400 data-[state=active]:to-rose-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300 text-sm sm:text-base data-[state=inactive]:hover:bg-pink-50"
             >
-              <Cookie size={18} />
+              <Cookie size={20} />
               Tatlı
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="dinner" className="mt-0">
+          <TabsContent value="dinner" className="mt-0 flex justify-center">
             <DinnerMenuSuggester />
           </TabsContent>
 
-          <TabsContent value="dessert" className="mt-0">
+          <TabsContent value="dessert" className="mt-0 flex justify-center">
             <DessertSuggester />
           </TabsContent>
         </Tabs>

@@ -69,7 +69,7 @@ export function DinnerMenuSuggester({ onMenuSelected }: DinnerMenuSuggesterProps
     }, [menuLastSuggested, saveMenuHistory, onMenuSelected]);
 
     return (
-        <div className="w-full max-w-lg">
+        <div className="w-full max-w-lg mx-auto">
             {/* Header */}
             <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full shadow-lg mb-4">
