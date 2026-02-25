@@ -1,4 +1,4 @@
-import { ChefHat } from 'lucide-react';
+import { ChefHat, User, Cookie } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface WelcomeScreenProps {
@@ -63,17 +63,23 @@ export function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                 {/* Features Grid */}
                 <div className="grid md:grid-cols-3 gap-6 mb-12 animate-fade-in-up delay-600">
                     <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                        <div className="text-5xl mb-4">🍽️</div>
+                        <div className="text-orange-500 mb-4 flex justify-center">
+                            <ChefHat size={48} />
+                        </div>
                         <h3 className="text-xl font-bold text-gray-800 mb-2">Akşam Yemekleri</h3>
                         <p className="text-gray-600">Geleneksel Türk ve Kürt akşam yemekleri ile sofranızı şenlendirin</p>
                     </div>
                     <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-pink-100 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                        <div className="text-5xl mb-4">🍰</div>
+                        <div className="text-orange-500 mb-4 flex justify-center">
+                            <Cookie size={48} />
+                        </div>
                         <h3 className="text-xl font-bold text-gray-800 mb-2">Tatlılar</h3>
                         <p className="text-gray-600">Nefis Türk ve Kürt tatlıları ile gününüzü tatlandırın</p>
                     </div>
                     <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-amber-100 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                        <div className="text-5xl mb-4">👤</div>
+                        <div className="text-orange-500 mb-4 flex justify-center">
+                            <User size={48} />
+                        </div>
                         <h3 className="text-xl font-bold text-gray-800 mb-2">Kişisel Profil</h3>
                         <p className="text-gray-600">Profilinizi oluşturun ve deneyiminizi kişiselleştirin</p>
                     </div>
