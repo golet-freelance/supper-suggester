@@ -1,11 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChefHat, Cookie } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { DinnerMenuSuggester } from '@/components/DinnerMenuSuggester';
 import { DessertSuggester } from '@/components/DessertSuggester';
+import { ProfileSetup, type UserProfile } from '@/components/ProfileSetup';
+import { UserProfile as UserProfileComponent } from '@/components/UserProfile';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dinner');
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load user profile from localStorage on app start
+  useEffect(() => {
+    const savedProfile = localStorage.getItem('userProfile');
+    if (savedProfile) {
+      try {
+        const profile = JSON.parse(savedProfile);
+        setUserProfile(profile);
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        localStorage.removeItem('userProfile');
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  const handleProfileComplete = (profile: UserProfile) => {
+    setUserProfile(profile);
+  };
+
+  const handleProfileUpdate = (profile: UserProfile) => {
+    setUserProfile(profile);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userProfile');
+    setUserProfile(null);
+  };
+
+  // Show loading screen
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-orange-200 border-t-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show profile setup if no profile exists
+  if (!userProfile) {
+    return <ProfileSetup onProfileComplete={handleProfileComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center p-4 relative overflow-hidden">
@@ -46,13 +96,28 @@ function App() {
       </div>
 
       <div className="w-full max-w-4xl mx-auto relative z-10">
+        {/* Profile Button - Top Right */}
+        <div className="absolute top-4 right-4 z-20">
+          <Button
+            onClick={() => setActiveTab('profile')}
+            variant="outline"
+            size="sm"
+            className="bg-white/90 backdrop-blur-sm border-blue-200 hover:bg-blue-50 hover:border-blue-300 shadow-lg flex items-center gap-2 px-3 py-2"
+          >
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
+              <span className="text-xs text-white">{userProfile.avatar}</span>
+            </div>
+            <span className="hidden sm:inline text-blue-700 font-medium">{userProfile.name}</span>
+          </Button>
+        </div>
+
         {/* Header */}
-        <div className="text-center mb-8 animate-fade-in-up">
+        <div className="text-center mb-8 animate-fade-in-up pt-8">
           <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full shadow-lg mb-6 hover:scale-105 transition-transform duration-300 animate-bounce-gentle">
             <ChefHat className="text-white" size={48} />
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 animate-slide-in-left">
-            Yemek Öneri Uygulaması
+            Merhaba, {userProfile.name}! 👋
           </h1>
           <p className="text-gray-500 text-sm sm:text-base animate-slide-in-right delay-200">
             Türk ve Kürt mutfağından lezzetli öneriler
@@ -84,6 +149,16 @@ function App() {
 
           <TabsContent value="dessert" className="mt-0 flex justify-center">
             <DessertSuggester />
+          </TabsContent>
+
+          <TabsContent value="profile" className="mt-0 flex justify-center">
+            <div className="w-full max-w-lg">
+              <UserProfileComponent
+                profile={userProfile}
+                onProfileUpdate={handleProfileUpdate}
+                onLogout={handleLogout}
+              />
+            </div>
           </TabsContent>
         </Tabs>
 
