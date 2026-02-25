@@ -13,14 +13,24 @@ export function DessertSuggester({ onDessertSelected }: DessertSuggesterProps) {
     const [history, setHistory] = useState<Dessert[]>([]);
     const [dessertLastSuggested, setDessertLastSuggested] = useState<Record<string, number>>({});
 
-    // Load dessert suggestion history from localStorage
+    // Load dessert suggestion history and current dessert from localStorage
     useEffect(() => {
-        const saved = localStorage.getItem('dessertLastSuggested');
-        if (saved) {
+        const savedHistory = localStorage.getItem('dessertLastSuggested');
+        if (savedHistory) {
             try {
-                setDessertLastSuggested(JSON.parse(saved));
+                setDessertLastSuggested(JSON.parse(savedHistory));
             } catch (e) {
                 console.error('Error loading dessert history:', e);
+            }
+        }
+
+        const savedCurrentDessert = localStorage.getItem('dessertCurrentDessert');
+        if (savedCurrentDessert) {
+            try {
+                const dessert = JSON.parse(savedCurrentDessert);
+                setCurrentDessert(dessert);
+            } catch (e) {
+                console.error('Error loading current dessert:', e);
             }
         }
     }, []);
@@ -32,6 +42,15 @@ export function DessertSuggester({ onDessertSelected }: DessertSuggesterProps) {
         setDessertLastSuggested(updated);
         localStorage.setItem('dessertLastSuggested', JSON.stringify(updated));
     }, [dessertLastSuggested]);
+
+    // Save current dessert to localStorage
+    const saveCurrentDessert = useCallback((dessert: Dessert | null) => {
+        if (dessert) {
+            localStorage.setItem('dessertCurrentDessert', JSON.stringify(dessert));
+        } else {
+            localStorage.removeItem('dessertCurrentDessert');
+        }
+    }, []);
 
     const suggestDessert = useCallback(() => {
         setIsAnimating(true);
@@ -60,6 +79,7 @@ export function DessertSuggester({ onDessertSelected }: DessertSuggesterProps) {
                 clearInterval(shuffleInterval);
                 const finalDessert = dessertsToChooseFrom[Math.floor(Math.random() * dessertsToChooseFrom.length)];
                 setCurrentDessert(finalDessert);
+                saveCurrentDessert(finalDessert);
                 setHistory(prev => [finalDessert, ...prev].slice(0, 3));
                 saveDessertHistory(finalDessert.id);
                 onDessertSelected?.(finalDessert);

@@ -13,14 +13,24 @@ export function DinnerMenuSuggester({ onMenuSelected }: DinnerMenuSuggesterProps
     const [history, setHistory] = useState<Menu[]>([]);
     const [menuLastSuggested, setMenuLastSuggested] = useState<Record<string, number>>({});
 
-    // Load menu suggestion history from localStorage
+    // Load menu suggestion history and current menu from localStorage
     useEffect(() => {
-        const saved = localStorage.getItem('dinnerMenuLastSuggested');
-        if (saved) {
+        const savedHistory = localStorage.getItem('dinnerMenuLastSuggested');
+        if (savedHistory) {
             try {
-                setMenuLastSuggested(JSON.parse(saved));
+                setMenuLastSuggested(JSON.parse(savedHistory));
             } catch (e) {
                 console.error('Error loading dinner menu history:', e);
+            }
+        }
+
+        const savedCurrentMenu = localStorage.getItem('dinnerCurrentMenu');
+        if (savedCurrentMenu) {
+            try {
+                const menu = JSON.parse(savedCurrentMenu);
+                setCurrentMenu(menu);
+            } catch (e) {
+                console.error('Error loading current dinner menu:', e);
             }
         }
     }, []);
@@ -32,6 +42,15 @@ export function DinnerMenuSuggester({ onMenuSelected }: DinnerMenuSuggesterProps
         setMenuLastSuggested(updated);
         localStorage.setItem('dinnerMenuLastSuggested', JSON.stringify(updated));
     }, [menuLastSuggested]);
+
+    // Save current menu to localStorage
+    const saveCurrentMenu = useCallback((menu: Menu | null) => {
+        if (menu) {
+            localStorage.setItem('dinnerCurrentMenu', JSON.stringify(menu));
+        } else {
+            localStorage.removeItem('dinnerCurrentMenu');
+        }
+    }, []);
 
     const suggestMenu = useCallback(() => {
         setIsAnimating(true);
@@ -60,6 +79,7 @@ export function DinnerMenuSuggester({ onMenuSelected }: DinnerMenuSuggesterProps
                 clearInterval(shuffleInterval);
                 const finalMenu = menusToChooseFrom[Math.floor(Math.random() * menusToChooseFrom.length)];
                 setCurrentMenu(finalMenu);
+                saveCurrentMenu(finalMenu);
                 setHistory(prev => [finalMenu, ...prev].slice(0, 3));
                 saveMenuHistory(finalMenu.id);
                 onMenuSelected?.(finalMenu);
