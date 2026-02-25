@@ -1,73 +1,109 @@
-# React + TypeScript + Vite
+# Turkish-Kurdish Menu App 🍽️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A beautiful React application for suggesting traditional Turkish and Kurdish dinner menus and desserts with a modern, animated UI.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dinner Menu Suggestions**: Traditional Turkish and Kurdish dinner combinations
+- **Dessert Suggestions**: Authentic Turkish and Kurdish sweets
+- **5-Day Repeat Restriction**: Smart algorithm prevents menu repetition
+- **User Profiles**: Personal profiles with avatar selection and photo upload
+- **Responsive Design**: Works perfectly on desktop and mobile
+- **Beautiful Animations**: Smooth transitions and hover effects
+- **Local Storage**: All data persists locally in the browser
 
-## React Compiler
+## 🚀 Deployment
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Using Docker Compose (Recommended)
 
-## Expanding the ESLint configuration
+1. **Build and run the application:**
+   ```bash
+   docker-compose up --build
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **Access the application:**
+   - Open your browser and go to `http://localhost:3001`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Manual Docker Commands
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. **Build the image:**
+   ```bash
+   docker build -t turkish-kurdish-menu-app .
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Run the container:**
+   ```bash
+   docker run -p 3001:80 turkish-kurdish-menu-app
+   ```
+
+## 🏗️ Architecture
+
+- **Frontend**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS + shadcn/ui components
+- **Icons**: Lucide React
+- **Container**: Docker + Nginx
+- **Port**: 3001 (internal deployment)
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── LoadingScreen.tsx       # Loading state component
+│   ├── WelcomeScreen.tsx       # First-time user welcome
+│   ├── MainApp.tsx            # Main application interface
+│   ├── DinnerMenuSuggester.tsx # Dinner menu logic
+│   ├── DessertSuggester.tsx   # Dessert suggestion logic
+│   ├── ProfileSetup.tsx       # User profile creation
+│   └── UserProfile.tsx        # Profile management
+├── data/
+│   ├── dinnerMenus.ts         # Dinner menu data
+│   └── desserts.ts            # Dessert data
+└── App.tsx                    # Main app orchestrator
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Install dependencies
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
+
+## 🐳 Docker Configuration
+
+- **Base Image**: Node.js 20 Alpine for building
+- **Production Image**: Nginx Alpine for serving
+- **Multi-stage Build**: Optimized for smaller final image
+- **SPA Routing**: Nginx configured for client-side routing
+- **Security Headers**: Basic security headers included
+
+## 🌟 Key Features
+
+### Smart Menu Suggestions
+- 40+ traditional Turkish and Kurdish dinner combinations
+- 40+ authentic desserts from both cultures
+- 5-day restriction prevents menu repetition
+- Beautiful card-based UI with animations
+
+### User Experience
+- Welcome screen for first-time users
+- Profile system with name, avatar, and photo upload
+- Responsive design for all devices
+- Smooth animations and transitions
+- Orange/amber color theme
+
+### Technical Excellence
+- TypeScript for type safety
+- Component-based architecture
+- Local storage for data persistence
+- Optimized Docker containerization
+- Clean, maintainable code structure
